@@ -107,6 +107,10 @@ async function openFile() {
 }
 
 // IPC handlers
+ipcMain.on('open-file-dialog', () => {
+  openFile();
+});
+
 ipcMain.handle('read-file', async (event, filePath) => {
   try {
     const data = fs.readFileSync(filePath);
