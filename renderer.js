@@ -1,8 +1,3 @@
-const { ipcRenderer } = require('electron');
-const mammoth = require('mammoth');
-const fs = require('fs');
-const path = require('path');
-
 let currentFilePath = null;
 let isModified = false;
 
@@ -67,10 +62,10 @@ editor.addEventListener('keydown', (e) => {
 });
 
 // IPC listeners
-ipcRenderer.on('file-new', newDocument);
-ipcRenderer.on('file-save', saveDocument);
-ipcRenderer.on('file-save-as', saveDocumentAs);
-ipcRenderer.on('file-opened', (event, filePath) => {
+window.electronAPI.onFileNew(newDocument);
+window.electronAPI.onFileSave(saveDocument);
+window.electronAPI.onFileSaveAs(saveDocumentAs);
+window.electronAPI.onFileOpened((event, filePath) => {
   loadFile(filePath);
 });
 
@@ -91,18 +86,19 @@ function newDocument() {
 
 function openDocument() {
   // This will trigger the file dialog in main process
-  ipcRenderer.send('open-file-dialog');
+  window.electronAPI.openFileDialog();
 }
 
 async function loadFile(filePath) {
   try {
-    const ext = path.extname(filePath).toLowerCase();
+    const ext = filePath.substring(filePath.lastIndexOf('.')).toLowerCase();
     
     if (ext === '.docx') {
       // Load .docx file using mammoth
-      const result = await ipcRenderer.invoke('read-file', filePath);
+      const result = await window.electronAPI.readFile(filePath);
       if (result.success) {
         const arrayBuffer = result.data.buffer;
+        const mammoth = window.mammoth;
         const converted = await mammoth.convertToHtml({ arrayBuffer });
         editor.innerHTML = converted.value || '<p><br></p>';
       } else {
@@ -111,7 +107,7 @@ async function loadFile(filePath) {
       }
     } else if (ext === '.txt' || ext === '.doc') {
       // Load text files
-      const result = await ipcRenderer.invoke('read-file', filePath);
+      const result = await window.electronAPI.readFile(filePath);
       if (result.success) {
         const content = result.data.toString('utf8');
         // Convert plain text to HTML paragraphs
@@ -144,7 +140,7 @@ async function saveDocument() {
   
   try {
     const content = getEditorTextContent();
-    const result = await ipcRenderer.invoke('save-file', currentFilePath, content);
+    const result = await window.electronAPI.saveFile(currentFilePath, content);
     
     if (result.success) {
       isModified = false;
@@ -159,11 +155,11 @@ async function saveDocument() {
 
 async function saveDocumentAs() {
   try {
-    const result = await ipcRenderer.invoke('save-file-dialog');
+    const result = await window.electronAPI.saveFileDialog();
     
     if (!result.canceled && result.filePath) {
       const content = getEditorTextContent();
-      const saveResult = await ipcRenderer.invoke('save-file', result.filePath, content);
+      const saveResult = await window.electronAPI.saveFile(result.filePath, content);
       
       if (saveResult.success) {
         currentFilePath = result.filePath;
@@ -222,7 +218,7 @@ function updateWordCount() {
 
 function updateFilePathDisplay() {
   if (currentFilePath) {
-    const fileName = path.basename(currentFilePath);
+    const fileName = currentFilePath.substring(currentFilePath.lastIndexOf('/') + 1);
     filePathDisplay.textContent = fileName + (isModified ? ' *' : '');
   } else {
     filePathDisplay.textContent = '未命名文档' + (isModified ? ' *' : '');
