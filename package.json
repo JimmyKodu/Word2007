@@ -1,0 +1,23 @@
+{
+  "name": "word2007",
+  "version": "1.0.0",
+  "description": "Desktop Word viewer and editor",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "keywords": [
+    "word",
+    "office",
+    "editor"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^40.1.0"
+  },
+  "dependencies": {
+    "mammoth": "^1.6.0"
+  }
+}
