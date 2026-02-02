@@ -183,14 +183,18 @@ function getEditorTextContent() {
 }
 
 function formatText(command) {
+  // Note: document.execCommand is deprecated but still widely supported
+  // For a future version, consider migrating to a modern editor library like Quill.js or ProseMirror
   document.execCommand(command, false, null);
   editor.focus();
 }
 
 function changeFontSize() {
   const size = fontSizeSelect.value;
-  document.execCommand('fontSize', false, '7');
-  const fontElements = editor.querySelectorAll('font[size="7"]');
+  // Use fontSize=7 as intermediate value to select and modify font elements
+  const TEMP_FONT_SIZE = '7';
+  document.execCommand('fontSize', false, TEMP_FONT_SIZE);
+  const fontElements = editor.querySelectorAll(`font[size="${TEMP_FONT_SIZE}"]`);
   fontElements.forEach(element => {
     element.removeAttribute('size');
     element.style.fontSize = size + 'px';
