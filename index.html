@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word 2007</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="toolbar-group">
+        <button id="btn-new" class="toolbar-btn" title="新建 (Ctrl+N)">
+          <span class="icon">📄</span>
+          <span class="label">新建</span>
+        </button>
+        <button id="btn-open" class="toolbar-btn" title="打开 (Ctrl+O)">
+          <span class="icon">📂</span>
+          <span class="label">打开</span>
+        </button>
+        <button id="btn-save" class="toolbar-btn" title="保存 (Ctrl+S)">
+          <span class="icon">💾</span>
+          <span class="label">保存</span>
+        </button>
+      </div>
+      
+      <div class="toolbar-separator"></div>
+      
+      <div class="toolbar-group">
+        <button id="btn-bold" class="toolbar-btn format-btn" title="粗体 (Ctrl+B)">
+          <span class="icon"><strong>B</strong></span>
+        </button>
+        <button id="btn-italic" class="toolbar-btn format-btn" title="斜体 (Ctrl+I)">
+          <span class="icon"><em>I</em></span>
+        </button>
+        <button id="btn-underline" class="toolbar-btn format-btn" title="下划线 (Ctrl+U)">
+          <span class="icon"><u>U</u></span>
+        </button>
+      </div>
+      
+      <div class="toolbar-separator"></div>
+      
+      <div class="toolbar-group">
+        <select id="font-size" class="font-size-select">
+          <option value="12">12</option>
+          <option value="14" selected>14</option>
+          <option value="16">16</option>
+          <option value="18">18</option>
+          <option value="20">20</option>
+          <option value="24">24</option>
+          <option value="28">28</option>
+          <option value="32">32</option>
+        </select>
+      </div>
+      
+      <div class="toolbar-separator"></div>
+      
+      <div class="toolbar-group">
+        <button id="btn-align-left" class="toolbar-btn" title="左对齐">
+          <span class="icon">≡</span>
+        </button>
+        <button id="btn-align-center" class="toolbar-btn" title="居中">
+          <span class="icon">≣</span>
+        </button>
+        <button id="btn-align-right" class="toolbar-btn" title="右对齐">
+          <span class="icon">≢</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Status bar -->
+    <div class="status-bar">
+      <span id="file-path">未命名文档</span>
+      <span id="word-count">字数: 0</span>
+    </div>
+
+    <!-- Editor -->
+    <div class="editor-container">
+      <div id="editor" contenteditable="true" spellcheck="false">
+        <p>欢迎使用 Word 2007</p>
+        <p>这是一个简单的文字编辑器，支持查看和编辑文档。</p>
+        <p><br></p>
+        <p>功能特性：</p>
+        <p>• 打开和保存 .docx、.doc 和 .txt 文件</p>
+        <p>• 文本格式化（粗体、斜体、下划线）</p>
+        <p>• 字体大小调整</p>
+        <p>• 文本对齐方式</p>
+        <p>• 实时字数统计</p>
+        <p><br></p>
+        <p>快捷键：</p>
+        <p>• Ctrl+N - 新建文档</p>
+        <p>• Ctrl+O - 打开文档</p>
+        <p>• Ctrl+S - 保存文档</p>
+        <p>• Ctrl+B - 粗体</p>
+        <p>• Ctrl+I - 斜体</p>
+        <p>• Ctrl+U - 下划线</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
